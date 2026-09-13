@@ -1,0 +1,82 @@
+{
+  "Windows": {
+    "System_files": [
+      "%TEMP%",
+      "C:\\Windows\\Temp",
+      "$WIN_USERS$\\AppData\\Local\\Temp",
+      "C:\\Windows\\SoftwareDistribution\\Download",
+      "C:\\Windows\\Prefetch",
+      "C:\\Windows\\MEMORY.DMP"
+    ],
+    "Browser_files": [
+      "$WIN_USERS$\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache",
+      "$WIN_USERS$\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Code Cache",
+      "$WIN_USERS$\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cache",
+      "$WIN_USERS$\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Cache",
+      "$WIN_USERS$\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\Default\\Cache"
+    ],
+    "Popular_apps": [
+      "$WIN_USERS$\\AppData\\Local\\Spotify\\Data",
+      "$WIN_USERS$\\AppData\\Local\\Discord\\Cache",
+      "$WIN_USERS$\\AppData\\Local\\Slack\\Cache",
+      "$WIN_USERS$\\AppData\\Local\\Telegram Desktop\\tdata\\cache",
+      "$WIN_USERS$\\AppData\\Local\\Microsoft\\Teams\\Cache",
+      "$WIN_USERS$\\AppData\\Local\\Adobe\\Acrobat\\DC\\Cache",
+      "$WIN_USERS$\\AppData\\Local\\Steam\\appcache",
+      "$WIN_USERS$\\AppData\\Local\\Epic Games\\Launcher\\Saved\\webcache",
+      "$WIN_USERS$\\AppData\\Local\\Microsoft\\Office\\16.0\\OfficeFileCache",
+      "$WIN_USERS$\\AppData\\Local\\npm-cache",
+      "$WIN_USERS$\\AppData\\Local\\Yarn\\cache",
+      "$WIN_USERS$\\AppData\\Local\\pip\\cache",
+      "$WIN_USERS$\\AppData\\Local\\VirtualStore"
+    ]
+  },
+
+  "Linux": {
+    "User_cache": [
+      "~/.cache",
+      "~/.cache/google-chrome",
+      "~/.cache/mozilla/firefox",
+      "~/.cache/spotify",
+      "~/.cache/discord",
+      "~/.cache/telegram-desktop",
+      "~/.cache/slack",
+      "~/.cache/pip",
+      "~/.cache/npm",
+      "~/.cache/yarn",
+      "~/.cache/gradle",
+      "~/.cache/meson",
+      "~/.cache/cargo",
+      "~/.cache/unity3d",
+      "~/.cache/godot"
+    ],
+    "System_files": [
+      "/tmp",
+      "/var/tmp",
+      "/var/cache/apt/archives",
+      "/var/cache/pacman/pkg",
+      "/var/cache/dnf",
+      "/var/cache/yum",
+      "/var/cache/ldconfig"
+    ],
+    "Browser_files": [
+      "~/.cache/google-chrome",
+      "~/.cache/chromium",
+      "~/.cache/mozilla/firefox/<Profile>/cache2",
+      "~/.cache/BraveSoftware/Brave-Browser",
+      "~/.cache/opera"
+    ],
+    "Popular_apps": [
+      "~/.steam/steam/appcache",
+      "~/.local/share/Steam/appcache",
+      "~/.config/TelegramDesktop/tdata/cache",
+      "~/.config/Signal",
+      "~/.config/Slack/Cache",
+      "~/.config/Code/Cache",
+      "~/.config/google-chrome/Default/Cache",
+      "~/.config/discord/Cache",
+      "~/.config/spotify/Data"
+    ]
+  }
+  
+}
