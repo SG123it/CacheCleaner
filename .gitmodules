@@ -1,0 +1,6 @@
+[submodule "include/json-master"]
+	path = include/json-master
+	url = https://github.com/nlohmann/json.git
+[submodule "include/argparse-master"]
+	path = include/argparse-master
+	url = https://github.com/p-ranav/argparse.git
