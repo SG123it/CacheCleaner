@@ -1,5 +1,6 @@
 #include "JSONworker.hpp"
 #include <fstream>
+#include <iomanip>
 
 std::vector<std::pair<std::string, std::filesystem::path>> JSONworker::get_PresetPaths()
 {
@@ -76,7 +77,7 @@ bool JSONworker::set_Userpaths(std::vector<std::filesystem::path> List)
     std::ofstream file(DefaultUserpaths_Filename);
     if (!file.is_open()) return false;
 
-    file << JsonData;
+    file << std::setw(4) << JsonData;
     file.close();
 
     return true;
