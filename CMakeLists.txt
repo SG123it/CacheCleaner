@@ -9,6 +9,7 @@ project(${P_NAME} VERSION ${P_VER})
 set(SRC
     "src/main.cpp"
     "src/JSONworker.cpp"
+    "src/Folderworker.cpp"
 )
 include_directories(
     "header"
