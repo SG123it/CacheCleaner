@@ -3,3 +3,17 @@
    1. "WIN_USERS$" : Получить переменную  "USERPROFILE" через getenv("USERPROFILE")
 2. Посмотреть список путей для очистки можно в documents\presets.json
    1. Пример как получить значение на C++: std::cout << JSON["Windows"]]["`System_files`"];
+3. Стандарт названия Preset JSON Файла: presets.json
+4. Стандарт названия JSON файла с путями пользователя: UserPaths.json
+
+Пример UserPaths.json:
+
+```json
+{
+  "Paths": [
+    "FirstPath",
+    "SecondPath"
+    ...
+  ]
+}
+```
