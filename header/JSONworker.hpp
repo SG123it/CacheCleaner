@@ -15,7 +15,7 @@ public:
     static std::vector<std::pair<std::string, std::filesystem::path>> get_PresetPaths();
 
     static std::vector<std::filesystem::path> get_UserPaths();
-    static bool set_Userpaths(std::vector<std::filesystem::path> List);
+    static bool set_UserPaths(std::vector<std::filesystem::path> List);
 
     static std::filesystem::path Get_DefaultPreset_Filename() {
         return DefaultPreset_Filename;

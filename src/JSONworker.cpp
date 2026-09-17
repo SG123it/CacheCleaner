@@ -64,7 +64,7 @@ std::vector<std::filesystem::path> JSONworker::get_UserPaths()
     return all_paths;
 }
 
-bool JSONworker::set_Userpaths(std::vector<std::filesystem::path> List)
+bool JSONworker::set_UserPaths(std::vector<std::filesystem::path> List)
 {
     //Заполнение...
     nlohmann::json JsonData;
