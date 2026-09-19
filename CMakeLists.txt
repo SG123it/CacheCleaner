@@ -10,6 +10,7 @@ set(SRC
     "src/main.cpp"
     "src/JSONworker.cpp"
     "src/Folderworker.cpp"
+    "src/interactive.cpp"
 )
 include_directories(
     "header"
