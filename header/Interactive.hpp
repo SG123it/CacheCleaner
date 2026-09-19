@@ -31,7 +31,7 @@ inline InputValue interactiveLogic::input(std::string msg, bool infinityLoop)
 
             continue;
         }
-
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         return variable; //Если ввод был успешен и код до сюда дошёл
     }
     while(infinityLoop); //Если флаг InfinityLoop включен - цикл будет повторяться до успешного ввода
