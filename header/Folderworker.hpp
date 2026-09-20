@@ -12,8 +12,11 @@ private:
 
     //Функция для получения размера файла в байтах
     static unsigned long long int GetFileSize(std::filesystem::path path);
-public:
-    
+
+    //Заменяет $WIN_USERS$ и подобные строки при их наличии
+    static std::filesystem::path VariablesToText(std::string path);
+public: 
+
     //Функция которая возвращает размер папки в мб
     static unsigned long long int GetFolderSize(std::filesystem::path path);
 
