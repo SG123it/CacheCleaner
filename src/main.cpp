@@ -39,6 +39,10 @@ int main(int argc, char* argv[]) {
     std::vector<std::filesystem::path> UserPaths = interactiveLogic::UserPathsAsk();
     if (!JSONworker::set_UserPaths(UserPaths)) std::cout << "\nUnable to save user paths!";
 
+    //Добавление пользовательских категорий в общий вектор all_categories
+    categories_keys.insert("UserPaths");
+    for (auto el : UserPaths) all_categories["UserPaths"].push_back(el);
+
     //Шаг [3/3] Запуск очистки
     //------------------------------------
     std::cout << "\nPress any key to start cleaning...\n";
