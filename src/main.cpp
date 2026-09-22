@@ -3,6 +3,7 @@
 #include <JSONworker.hpp>
 #include <Folderworker.hpp>
 #include <Interactive.hpp>
+#include <RequestWorker.hpp>
 
 //Константные значения для программы
 //Макросы определены в CMAKELISTS
@@ -12,8 +13,6 @@ const std::string PROGRAM_VERSION = VERSION;
 
 // Это главная функция, здесь происходит парсинг аргументов и последующий запуск программы
 int main(int argc, char* argv[]) {
-
-
     argparse::ArgumentParser program(PROGRAM_NAME,PROGRAM_VERSION);
     program.add_description(PROGRAM_DESCRIPTION);
     program.add_argument("--FAST", "--F")

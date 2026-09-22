@@ -12,6 +12,7 @@ set(SRC
     "src/JSONworker.cpp"
     "src/Folderworker.cpp"
     "src/Interactive.cpp"
+    "src/RequestWorker.cpp"
 )
 include_directories(
     "header"
