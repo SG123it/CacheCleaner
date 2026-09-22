@@ -45,8 +45,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "build\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "dependencies\WIN\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "dependencies\presets.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dependencies\WIN\*"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
