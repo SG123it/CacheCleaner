@@ -11,8 +11,12 @@ const std::string PROGRAM_NAME = ProgramName;
 const std::string PROGRAM_DESCRIPTION = ProgramDescription;
 const std::string PROGRAM_VERSION = VERSION;
 
+const std::string PresetFileUrlStandart = "https://raw.githubusercontent.com/SG123it/CacheCleaner/refs/heads/main/dependencies/presets.json";
+const std::string PresetFileFileNameStandart = "presets.json";
+
 // Это главная функция, здесь происходит парсинг аргументов и последующий запуск программы
 int main(int argc, char* argv[]) {
+    RequestWorker::DownloadFIle(PresetFileUrlStandart, PresetFileFileNameStandart);
     argparse::ArgumentParser program(PROGRAM_NAME,PROGRAM_VERSION);
     program.add_description(PROGRAM_DESCRIPTION);
     program.add_argument("--FAST", "--F")
