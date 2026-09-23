@@ -19,20 +19,13 @@ const std::string PresetFileFileNameStandart = "presets.json";
 const std::string VersionFileUrlStandart = "https://raw.githubusercontent.com/SG123it/CacheCleaner/refs/heads/main/version.txt";
 
 // Это главная функция, здесь происходит парсинг аргументов и последующий запуск программы
-int main(int argc, char* argv[]) {
-    //Если доступна новая версия
-    if (RequestWorker::CheckProgramUpdates(VersionFileUrlStandart, std::stof(PROGRAM_VERSION))) {
-        std::cout << "\nHey! New version available! Learn more at: " << repository_releases_url << std::endl;
-    }
-    if (!std::filesystem::exists(PresetFileFileNameStandart)) {
-        RequestWorker::DownloadFIle(PresetFileUrlStandart, PresetFileFileNameStandart);
-    }
-    
+int main(int argc, char* argv[]) {    
     argparse::ArgumentParser program(PROGRAM_NAME,PROGRAM_VERSION);
     program.add_description(PROGRAM_DESCRIPTION);
     program.add_argument("--FAST", "--F")
     .help("quickly clean files without user paths")
     .flag();
+    
 
     program.parse_args(argc, argv);
     bool FAST_FLAG = program["--FAST"] == true;
@@ -40,6 +33,14 @@ int main(int argc, char* argv[]) {
 
     std::cout << PROGRAM_DESCRIPTION << std::endl;
     std::cout << "VERSION: " << PROGRAM_VERSION << "\n----------------\n\n\n";
+
+    //Если доступна новая версия
+    if (RequestWorker::CheckProgramUpdates(VersionFileUrlStandart, std::stof(PROGRAM_VERSION))) {
+        std::cout << "\nHey! New version available! Learn more at: " << repository_releases_url << std::endl;
+    }
+    if (!std::filesystem::exists(PresetFileFileNameStandart)) {
+        RequestWorker::DownloadFIle(PresetFileUrlStandart, PresetFileFileNameStandart);
+    }
 
     //Шаг [1/3] получение путей из preset файла
     //------------------------------------
