@@ -11,7 +11,7 @@ cpr::Response RequestWorker::get_request(std::string URL)
             return request;
         }
         if (request.status_code != 200) {
-            std::cout << "[" << i << "]" << "Unable to execute GET request: " << request.status_code << std::endl;
+            std::cout << "[" << i+1 << "]" << "Unable to execute GET request: " << request.status_code << std::endl;
             std::cout << "Site: " << URL << "\n\n";
             continue;
         }
@@ -46,7 +46,7 @@ bool RequestWorker::DownloadFIle(std::string URL, std::string path)
 bool RequestWorker::CheckProgramUpdates(std::string RemoteVersionURL, float version)
 {
     cpr::Response data = get_request(RemoteVersionURL);
-    if (!data.status_code == 200) return false;
+    if (data.status_code != 200) return false;
 
     //Корвертирование удалённой строки с версией в float
     float RemoteVersion = 0.0;

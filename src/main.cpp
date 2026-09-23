@@ -11,12 +11,23 @@ const std::string PROGRAM_NAME = ProgramName;
 const std::string PROGRAM_DESCRIPTION = ProgramDescription;
 const std::string PROGRAM_VERSION = VERSION;
 
+const std::string repository_releases_url = "https://github.com/SG123it/CacheCleaner/releases";
+
 const std::string PresetFileUrlStandart = "https://raw.githubusercontent.com/SG123it/CacheCleaner/refs/heads/main/dependencies/presets.json";
 const std::string PresetFileFileNameStandart = "presets.json";
 
+const std::string VersionFileUrlStandart = "https://raw.githubusercontent.com/SG123it/CacheCleaner/refs/heads/main/version.txt";
+
 // Это главная функция, здесь происходит парсинг аргументов и последующий запуск программы
 int main(int argc, char* argv[]) {
-    RequestWorker::DownloadFIle(PresetFileUrlStandart, PresetFileFileNameStandart);
+    //Если доступна новая версия
+    if (RequestWorker::CheckProgramUpdates(VersionFileUrlStandart, std::stof(PROGRAM_VERSION))) {
+        std::cout << "\nHey! New version available! Learn more at: " << repository_releases_url << std::endl;
+    }
+    if (!std::filesystem::exists(PresetFileFileNameStandart)) {
+        RequestWorker::DownloadFIle(PresetFileUrlStandart, PresetFileFileNameStandart);
+    }
+    
     argparse::ArgumentParser program(PROGRAM_NAME,PROGRAM_VERSION);
     program.add_description(PROGRAM_DESCRIPTION);
     program.add_argument("--FAST", "--F")
