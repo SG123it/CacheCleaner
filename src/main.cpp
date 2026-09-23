@@ -25,10 +25,14 @@ int main(int argc, char* argv[]) {
     program.add_argument("--FAST", "--F")
     .help("quickly clean files without user paths")
     .flag();
-    
+
+    program.add_argument("--VERBOSE_RESULT", "--VR")
+    .help("Outputs the result in an expanded form.")
+    .flag();
 
     program.parse_args(argc, argv);
     bool FAST_FLAG = program["--FAST"] == true;
+    bool VERBOSE_RESULT_FLAG = program["--VERBOSE_RESULT"] == true;
     //---------------------
 
     std::cout << PROGRAM_DESCRIPTION << std::endl;
@@ -74,6 +78,9 @@ int main(int argc, char* argv[]) {
         std::cin.get();
     }
 
+    //Вектор пар для хранения выполнения всех результатов
+    std::vector<std::pair<bool, std::filesystem::path>> all_results;
+
     //Вес всех удалённых файлов в мб
     int total_removed_mb = 0;
     for (auto catetogy : categories_keys) {
@@ -86,12 +93,17 @@ int main(int argc, char* argv[]) {
             int after_size = 0;
 
             try {
+                //Вектор пар для временного хранения результатов. В дальнейшем всё копируется в all_results
+                std::vector<std::pair<bool, std::filesystem::path>> temp_result;
+
                 before_size = Folderworker::GetFolderSize(path);
-                Folderworker::RecursiveFolderDelete(path);
+                temp_result = Folderworker::RecursiveFolderDelete(path);
                 after_size = Folderworker::GetFolderSize(path);
 
                 deleted_mb += (before_size - after_size);
                 total_removed_mb += (before_size - after_size);
+
+                all_results.insert(all_results.end(), temp_result.begin(), temp_result.end());
             }
             catch(...) {
                 continue;
@@ -104,6 +116,16 @@ int main(int argc, char* argv[]) {
     std::cout << "\n---------------\n";
     std::cout << "The cleaning has been successfully completed.\n";
     std::cout << "Total cleaned: " << total_removed_mb << " MB";
+
+    if (VERBOSE_RESULT_FLAG) {
+        const int total_elements = all_results.size();
+        std::cout << "\n\nVERBOSE RESULT: " << "Total elements - " << total_elements << std::endl;
+
+        for (int i = 0; i < total_elements; i++) {
+            std::cout << i + 1 << " " << (all_results[i].first ? "OK" : "BAD") << " : " << all_results[i].second.string() << std::endl;
+        }
+
+    }
     
     if (!FAST_FLAG) { //Отключение нажатие на кнопку после завершения с флагом FAST
         std::cout << "\n\nPress any key to exit...";
