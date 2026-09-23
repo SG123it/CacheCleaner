@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <vector>
 #include <nlohmann/json.hpp>
+#include <JSONworker.hpp>
 
 //Класс для хранения интерактивных функций. Нужен для разбиения файла main.cpp
 class interactiveLogic {
