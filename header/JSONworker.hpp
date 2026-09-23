@@ -2,6 +2,8 @@
 #include <iostream>
 #include <filesystem>
 #include <vector>
+#include <fstream>
+#include <iomanip>
 #include <nlohmann/json.hpp>
 
 class JSONworker {

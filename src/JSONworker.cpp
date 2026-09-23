@@ -1,6 +1,4 @@
 #include "JSONworker.hpp"
-#include <fstream>
-#include <iomanip>
 
 std::vector<std::pair<std::string, std::filesystem::path>> JSONworker::get_PresetPaths()
 {
