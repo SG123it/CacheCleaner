@@ -43,7 +43,7 @@ bool RequestWorker::DownloadFIle(std::string URL, std::string path)
     return true;
 }
 
-bool RequestWorker::CheckProgramUpdated(std::string RemoteVersionURL, float version)
+bool RequestWorker::CheckProgramUpdates(std::string RemoteVersionURL, float version)
 {
     cpr::Response data = get_request(RemoteVersionURL);
     if (!data.status_code == 200) return false;

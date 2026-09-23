@@ -16,7 +16,7 @@ private:
 public:
 
     //Функция для проверки наличие обновлений у программы. Возвращает то есть ли обновление или нет
-    static bool CheckProgramUpdated(std::string RemoteVersionURL, float version);
+    static bool CheckProgramUpdates(std::string RemoteVersionURL, float version);
 
     //Функция для загрузки файла. Возвращает результат операции
     static bool DownloadFIle(std::string URL, std::string path);
