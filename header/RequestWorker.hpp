@@ -11,6 +11,9 @@ private:
     //Количество попыток для выполнения запроса
     static inline const int basic_request_limit = 5;
 
+    //Максимальное время ожидание для выполнения запроса
+    static inline const auto timeout_limit = std::chrono::seconds(5);
+
     static cpr::Response get_request(std::string URL);
 
 public:

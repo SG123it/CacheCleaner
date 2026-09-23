@@ -5,13 +5,13 @@ cpr::Response RequestWorker::get_request(std::string URL)
     cpr::Response request;
     for (int i = 0; i < basic_request_limit; i++) {
         try {
-            request = cpr::Get(cpr::Url(URL));
+            request = cpr::Get(cpr::Url(URL), timeout_limit);
         }
         catch(...) {
             return request;
         }
         if (request.status_code != 200) {
-            std::cout << "[" << i+1 << "]" << "Unable to execute GET request: " << request.status_code << std::endl;
+            std::cout << "[" << i+1 << "]" << "Unable to execute GET request: " << request.status_code << "(" << request.error.message << ")" << std::endl;
             std::cout << "Site: " << URL << "\n\n";
             continue;
         }
