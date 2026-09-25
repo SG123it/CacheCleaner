@@ -115,16 +115,28 @@ int main(int argc, char* argv[]) {
 
     std::cout << "\n---------------\n";
     std::cout << "The cleaning has been successfully completed.\n";
-    std::cout << "Total cleaned: " << total_removed_mb << " MB";
+    std::cout << "Total cleaned: " << total_removed_mb << " MB\n";
 
+    unsigned int count = all_results.size();
     if (VERBOSE_RESULT_FLAG) {
-        const int total_elements = all_results.size();
-        std::cout << "\n\nVERBOSE RESULT: " << "Total elements - " << total_elements << std::endl;
-
-        for (int i = 0; i < total_elements; i++) {
+        std::cout << "\n\nVERBOSE RESULT: " << "Total elements - " << count << std::endl;
+        for (int i = 0; i < count; i++) {
             std::cout << i + 1 << " " << (all_results[i].first ? "OK" : "BAD") << " : " << all_results[i].second.string() << std::endl;
         }
+    }
+    else {
+        unsigned int OK_count = 0;
+        unsigned int BAD_count = 0;
+        
+        for (int i = 0; i < count; i++) {
+            if (all_results[i].first) OK_count++;
+            else BAD_count++;
+        }
 
+        std::cout << "\n----------------\n";
+        std::cout << "| OK = " << OK_count << " | BAD = " << BAD_count;
+        std::cout << "\n----------------\n";
+        std::cout << "If you want to see VERBOSE result please rerun program with \"--VR\" argument\n";
     }
     
     if (!FAST_FLAG) { //Отключение нажатие на кнопку после завершения с флагом FAST
