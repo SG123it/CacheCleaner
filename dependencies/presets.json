@@ -6,14 +6,23 @@
       "$WIN_USERS$\\AppData\\Local\\Temp",
       "C:\\Windows\\SoftwareDistribution\\Download",
       "C:\\Windows\\Prefetch",
-      "C:\\Windows\\MEMORY.DMP"
+      "C:\\Windows\\MEMORY.DMP",
+      "C:\\Windows\\LiveKernelReports",
+      "$WIN_USERS$\\AppData\\Local\\Temp\\Low",
+      "$WIN_USERS$\\AppData\\Local\\D3DSCache"
     ],
     "Browser_files": [
-      "$WIN_USERS$\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache",
       "$WIN_USERS$\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Code Cache",
-      "$WIN_USERS$\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cache",
       "$WIN_USERS$\\AppData\\Local\\BraveSoftware\\Brave-Browser\\User Data\\Default\\Cache",
-      "$WIN_USERS$\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\Default\\Cache"
+      "$WIN_USERS$\\AppData\\Local\\Yandex\\YandexBrowser\\User Data\\Default\\Cache",
+      "$WIN_USERS$\\AppData\\Local\\Microsoft\\Windows\\INetCache",
+      "$WIN_USERS$\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Cache",
+      "$WIN_USERS$\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache",
+      "$WIN_USERS$\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\*\\cache",
+      "$WIN_USERS$\\AppData\\Local\\Opera\\Opera\\cache",
+      "$WIN_USERS$\\AppData\\Local\\Microsoft\\Windows\\Temporary Internet Files",
+      "$WIN_USERS$\\AppData\\Local\\Microsoft\\Windows\\INetCache\\Low"
+
     ],
     "Popular_apps": [
       "$WIN_USERS$\\AppData\\Local\\Spotify\\Data",
