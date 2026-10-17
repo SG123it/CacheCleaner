@@ -1,6 +1,6 @@
 set(P_NAME "CacheCleaner")
 set(P_DESCRIPTION "CacheCleaner - console utility for clean usused trash files.Learn More at: https://github.com/SG123it/CacheCleaner")
-set(P_VER 1.0)
+set(P_VER 1.1)
 
 file(WRITE "version.txt" "${P_VER}")
 
