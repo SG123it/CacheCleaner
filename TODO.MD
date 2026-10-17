@@ -30,4 +30,3 @@
 * [X] Дозагрузить зависимости в папку
 * [ ] Добавить показ размера папок перед очисткой
 * [ ] Добавить аргумент dry-run-only для сканирование без последующего удаления
-* [ ] Подключить [github.com/ArthurSonzogni/FTXUI](https://github.com/ArthurSonzogni/FTXUI?ysclid=muochurnb240986770) Для более хорошего CLI
