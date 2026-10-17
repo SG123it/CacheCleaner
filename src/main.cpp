@@ -36,16 +36,21 @@ int main(int argc, char* argv[]) {
     .help("Outputs the result in an expanded form.")
     .flag();
 
+    program.add_argument("--DRY_RUN_ONLY", "--DRO")
+    .help("Scan folders without subsequent cleanup.")
+    .flag();
+
     program.parse_args(argc, argv);
     bool FAST_FLAG = program["--FAST"] == true;
     bool VERBOSE_RESULT_FLAG = program["--VERBOSE_RESULT"] == true;
+    bool DRY_RUN_ONLY_FLAG = program["--DRY_RUN_ONLY"] == true;
     //---------------------
     //Вывод информации и скачка недостающих файлов
     
     std::cout << PROGRAM_DESCRIPTION << std::endl;
     std::cout << "VERSION: " << PROGRAM_VERSION << "\n\n";
 
-    if (!FAST_FLAG) {
+    if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG) {
         std::cout << "Checking for updates...\n";
         //Если доступна новая версия
         if (RequestWorker::CheckProgramUpdates(VersionFileUrlStandart, std::stof(PROGRAM_VERSION))) {
@@ -67,7 +72,7 @@ int main(int argc, char* argv[]) {
 
     //Шаг [1/4] предварительное редактирование preset файла и получение путей из него
     //------------------------------------
-    if (!FAST_FLAG) interactiveLogic::DANGER_EditPresetFIleAsk();
+    if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG) interactiveLogic::DANGER_EditPresetFIleAsk();
 
     if (!std::filesystem::exists(JSONworker::Get_DefaultPreset_Filename())) std::cout << "\nPreset file not found!\n";
 
@@ -78,7 +83,7 @@ int main(int argc, char* argv[]) {
 
     //Шаг [2/4] Уточнение пользовательских путей и сохранение 
     //------------------------------------
-    if (!FAST_FLAG) {
+    if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG) {
         //Вектор с пользовательскими путями. Если включён флаг FAST интерактивная часть просто пропускается а вектор остаётся пустым
         std::vector<std::filesystem::path> UserPaths = interactiveLogic::UserPathsAsk();
         if (!JSONworker::set_UserPaths(UserPaths)) std::cout << "\nUnable to save user paths!";
@@ -101,6 +106,13 @@ int main(int argc, char* argv[]) {
         total_size += size;
     }
     std::cout << "\nTotal size: " << total_size << "MB" <<  std::endl;
+
+    if (DRY_RUN_ONLY_FLAG) {
+        std::cout << "\n\nPress any key to exit...";
+        std::cin.get();
+
+        return 0;
+    }
 
     //Шаг [4/4] Запуск очистки
     //------------------------------------
