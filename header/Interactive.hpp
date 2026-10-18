@@ -13,8 +13,10 @@ private:
 public:
     
     //функция для уточнение пользовательских путей и сохранение их 
-    static std::vector<std::filesystem::path> UserPathsAsk();
-
+    static std::vector<std::filesystem::path> UserPathsAsk(bool Recurse_EnterNewPaths = false);
+    
+    //Функция для корректирования путей в preset файле : Считается опасной из за использования system()
+    static void DANGER_EditPresetFIleAsk();
 };
 
 template <typename InputValue>

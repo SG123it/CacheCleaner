@@ -1,12 +1,10 @@
 {
   "Windows": {
     "System_files": [
-      "%TEMP%",
       "C:\\Windows\\Temp",
       "$WIN_USERS$\\AppData\\Local\\Temp",
       "C:\\Windows\\SoftwareDistribution\\Download",
       "C:\\Windows\\Prefetch",
-      "C:\\Windows\\MEMORY.DMP",
       "C:\\Windows\\LiveKernelReports",
       "$WIN_USERS$\\AppData\\Local\\Temp\\Low",
       "$WIN_USERS$\\AppData\\Local\\D3DSCache"
