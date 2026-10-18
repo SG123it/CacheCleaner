@@ -55,15 +55,19 @@ unsigned long long int Folderworker::GetFolderSize(std::filesystem::path path)
 
     unsigned long long int return_value = 0;
 
-    for (auto el : std::filesystem::recursive_directory_iterator(path)) {
+    try {
+        for (auto el : std::filesystem::recursive_directory_iterator(path, std::filesystem::directory_options::skip_permission_denied)) {
 
-        if (std::filesystem::is_directory(el)) {
-            return_value += GetFolderSize(el);
-        }
-        else {
-            return_value += GetFileSize(el.path());
-        }
+            if (std::filesystem::is_directory(el)) {
+                return_value += GetFolderSize(el);
+            }
+            else {
+                return_value += GetFileSize(el.path());
+            }
 
+        }
+    } catch(...) {
+        std::cout << "\nCritical error while Folderworker::GetFolderSize:" << path << std::endl;
     }
     return (return_value / 1024) / 1024;
 }
@@ -74,8 +78,13 @@ std::vector<std::filesystem::path> Folderworker::GetFolderObjects(std::filesyste
     if (!std::filesystem::is_directory(path)) throw std::runtime_error("Error! " + path.string() + " - NOT DIRECTORY! (GetFolderObjects)");
 
     std::vector<std::filesystem::path> return_value;
-
-    for (auto el : std::filesystem::recursive_directory_iterator(path)) return_value.push_back(el.path());
+    try {
+        for (auto el : std::filesystem::recursive_directory_iterator(path, std::filesystem::directory_options::skip_permission_denied)) {
+            return_value.push_back(el.path());
+        }
+    } catch(...) {
+        std::cout << "Critical error while Folderworker::GetFolderObjects:" << path << std::endl;
+    }
     return return_value;
 }
 
@@ -85,12 +94,16 @@ std::vector<std::pair<bool, std::filesystem::path>> Folderworker::RecursiveFolde
     if (!std::filesystem::is_directory(path)) throw std::runtime_error("Error! " + path.string() + " - NOT DIRECTORY! (RecursiveFolderDelete)");
     std::vector<std::pair<bool, std::filesystem::path>> return_value;
     
-    for (auto el : std::filesystem::recursive_directory_iterator(path)) {
-        std::pair<bool, std::filesystem::path> object;
+    try {
+        for (auto el : std::filesystem::recursive_directory_iterator(path, std::filesystem::directory_options::skip_permission_denied)) {
+            std::pair<bool, std::filesystem::path> object;
 
-        object.second = el.path();
-        object.first = DeleteObject(el.path());
-        return_value.push_back(object);
+            object.second = el.path();
+            object.first = DeleteObject(el.path());
+            return_value.push_back(object);
+        }
+    } catch(...) {
+        std::cout << "Critical error while Folderworker::RecursiveFolderDelete:" << path << std::endl;
     }
 
     return return_value;

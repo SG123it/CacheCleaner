@@ -14,9 +14,20 @@ const std::string VersionFileUrlStandart = "https://raw.githubusercontent.com/SG
 const std::string PROGRAM_NAME = ProgramName;
 const std::string PROGRAM_DESCRIPTION = ProgramDescription;
 const std::string PROGRAM_VERSION = VERSION;
+void terminate() {
+    std::cout << "\n\n\n\n\n\n";
 
+    std::cout << "\n------------------------------------\n";
+    std::cout << "UNKNOWN ERROR! Please make sure that program run as administrator mode!";
+    std::cout << "\n------------------------------------\n";
+    std::cin.get();
+
+    std::abort();
+}
 // Это главная функция, здесь происходит парсинг аргументов и последующий запуск программы
 int main(int argc, char* argv[]) {
+    std::set_terminate(terminate);
+
     //Unordered map для хранения путей ; [категория, вектор путей<fs::path>]
     std::unordered_map<std::string, std::vector<std::filesystem::path>> all_categories;
 
@@ -95,7 +106,8 @@ int main(int argc, char* argv[]) {
     //Шаг [3/4] Сканирование
     //------------------------------------
 
-    std::cout << "Preview of total size: \n";
+    std::cout <<"\n-----------------------------\n";
+    std::cout << "Preview of total size: \n\n";
     int total_size = 0;
     for (auto catetogy : categories_keys) {
         int size = 0; //МБ
@@ -113,6 +125,7 @@ int main(int argc, char* argv[]) {
 
         return 0;
     }
+    std::cout <<"\n-----------------------------\n";
 
     //Шаг [4/4] Запуск очистки
     //------------------------------------
