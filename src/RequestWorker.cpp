@@ -11,10 +11,13 @@ cpr::Response RequestWorker::get_request(std::string URL)
             return request;
         }
         if (request.status_code != 200) {
-            std::cout << "[" << i+1 << "]" << "Unable to execute GET request: " << request.status_code << "(" << request.error.message << ")" << std::endl;
-            std::cout << "Site: " << URL << "\n\n";
             continue;
         }
+    }
+
+    if (request.status_code != 200) {
+        std::cout << "Unable to execute GET request: " << request.status_code << "(" << request.error.message << ")" << std::endl;
+        std::cout << "Site: " << URL << "\n\n";
     }
 
     return request;

@@ -102,9 +102,7 @@ std::vector<std::pair<bool, std::filesystem::path>> Folderworker::RecursiveFolde
             object.first = DeleteObject(el.path());
             return_value.push_back(object);
         }
-    } catch(...) {
-        std::cout << "Critical error while Folderworker::RecursiveFolderDelete:" << path << std::endl;
-    }
+    } catch(...) {} //Заглушка и возврат того, что уже удалось удалить
 
     return return_value;
 }
