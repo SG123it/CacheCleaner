@@ -1,20 +1,9 @@
 #include "JSONworker.hpp"
 
-std::vector<std::pair<std::string, std::filesystem::path>> JSONworker::get_PresetPaths()
+std::vector<std::pair<std::string, std::filesystem::path>> JSONworker::get_PresetPaths(const std::string MSG_Content)
 {
-    nlohmann::json JsonData;
+    nlohmann::json JsonData = nlohmann::json::parse(MSG_Content);
     std::vector<std::pair<std::string, std::filesystem::path>> all_paths;
-
-    if (!std::filesystem::exists(DefaultPreset_Filename) || std::filesystem::is_directory(DefaultPreset_Filename)) return all_paths; //возвращает пустой массив. Исключение удалено из за новой системы оффлайн путей
-
-    try {
-        std::ifstream file(DefaultPreset_Filename);
-        file >> JsonData;
-        file.close();
-    }
-    catch(...) {
-        throw std::runtime_error("Unable to read data from preset file");
-    }
     
     std::string OS = "";
     #if defined(_WIN32)

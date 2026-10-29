@@ -24,4 +24,7 @@ public:
     //Функция для загрузки файла. Возвращает результат операции
     static bool DownloadFIle(std::string URL, std::string path);
 
+    //Функция для загрузки содержмого запроса. Возвращает результат и текст
+    static std::pair<bool,std::string> DownloadContent(std::string URL);
+
 };

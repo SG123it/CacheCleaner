@@ -15,8 +15,8 @@ public:
     //функция для уточнение пользовательских путей и сохранение их 
     static std::vector<std::filesystem::path> UserPathsAsk(bool Recurse_EnterNewPaths = false);
     
-    //Функция для корректирования путей в preset файле : Считается опасной из за использования system()
-    static void DANGER_EditPresetFIleAsk();
+    //Функция для корректирования путей в preset файле путем записи во временный файл : Считается опасной из за использования system()
+    static nlohmann::json DANGER_EditPresetContentAsk(nlohmann::json Content);
 };
 
 template <typename InputValue>

@@ -14,7 +14,8 @@ private:
     //Стандартный путь до файла с путями пользователя
     inline static const std::filesystem::path DefaultUserpaths_Filename = "UserPaths.json";
 public:
-    static std::vector<std::pair<std::string, std::filesystem::path>> get_PresetPaths();
+    //Получить пути preset файла из контента запроса
+    static std::vector<std::pair<std::string, std::filesystem::path>> get_PresetPaths(const std::string MSG_Content);
 
     static std::vector<std::filesystem::path> get_UserPaths();
     static bool set_UserPaths(std::vector<std::filesystem::path> List);
