@@ -24,10 +24,6 @@ int main(int argc, char* argv[]) {
     //Сохранение всех ключей в отдельный вектор для получения доступа к unordered_map выше
     std::set<std::string> categories_keys;
 
-    //Флаг определяющий есть ли интернет
-    //Состояние определяется при попытке скачать содержимое preset файла
-    bool Internet_FLAG = true;
-
     //Хранит контент(текст) preset файла
     //Формат: состояние запроса и контент
     std::pair<bool, nlohmann::json> PresetFile_Content;
@@ -80,7 +76,9 @@ int main(int argc, char* argv[]) {
 
     //Шаг [1/4] предварительное редактирование preset файла и получение путей из него
     //------------------------------------
-    if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG && PresetFile_Content.first) PresetFile_Content.second = interactiveLogic::DANGER_EditPresetContentAsk(PresetFile_Content.second);
+    if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG && PresetFile_Content.first) {
+        PresetFile_Content.second = interactiveLogic::DANGER_EditPresetContentAsk(PresetFile_Content.second);
+    }
 
     //Условие если не удалось получить контент с preset файла
     if (!PresetFile_Content.first) {
