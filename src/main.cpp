@@ -4,6 +4,7 @@
 #include <Folderworker.hpp>
 #include <Interactive.hpp>
 #include <RequestWorker.hpp>
+#include <NoInternetPathsList.hpp>
 
 //Константные значения для программы
 const std::string repository_releases_url = "https://github.com/SG123it/CacheCleaner/releases";
@@ -14,19 +15,8 @@ const std::string VersionFileUrlStandart = "https://raw.githubusercontent.com/SG
 const std::string PROGRAM_NAME = ProgramName;
 const std::string PROGRAM_DESCRIPTION = ProgramDescription;
 const std::string PROGRAM_VERSION = VERSION;
-void terminate() {
-    std::cout << "\n\n\n\n\n\n";
-
-    std::cout << "\n------------------------------------\n";
-    std::cout << "UNKNOWN ERROR! Please make sure that program run as administrator mode!";
-    std::cout << "\n------------------------------------\n";
-    std::cin.get();
-
-    std::abort();
-}
 // Это главная функция, здесь происходит парсинг аргументов и последующий запуск программы
 int main(int argc, char* argv[]) {
-    std::set_terminate(terminate);
 
     //Unordered map для хранения путей ; [категория, вектор путей<fs::path>]
     std::unordered_map<std::string, std::vector<std::filesystem::path>> all_categories;
@@ -34,6 +24,8 @@ int main(int argc, char* argv[]) {
     //Сохранение всех ключей в отдельный вектор для получения доступа к unordered_map выше
     std::set<std::string> categories_keys;
 
+    //Флаг определяющий есть ли интернет
+    bool Internet_FLAG = true;
 
     //Работа с аргументами
     //---------------------  
@@ -85,7 +77,23 @@ int main(int argc, char* argv[]) {
     //------------------------------------
     if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG) interactiveLogic::DANGER_EditPresetFIleAsk();
 
-    if (!std::filesystem::exists(JSONworker::Get_DefaultPreset_Filename())) std::cout << "\nPreset file not found!\n";
+    if (!std::filesystem::exists(JSONworker::Get_DefaultPreset_Filename())) {
+        Internet_FLAG = false;
+        const std::string NO_INTERNET_KEY = "NO_INTERNET";
+        #if defined(_WIN32)
+            categories_keys.insert(NO_INTERNET_KEY);
+            for (auto el : NoInternetPaths::Win) {
+                all_categories[NO_INTERNET_KEY].push_back(std::filesystem::path(el));
+            }
+        #endif
+        #if defined(__linux__)
+            categories_keys.insert(NO_INTERNET_KEY);
+            for (auto el : NoInternetPaths::Linux) {
+                all_categories[NO_INTERNET_KEY].push_back(std::filesystem::path(el));
+            }
+        #endif
+
+    }
 
     for (auto el : JSONworker::get_PresetPaths()) {
         categories_keys.insert(el.first);

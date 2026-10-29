@@ -5,7 +5,7 @@ std::vector<std::pair<std::string, std::filesystem::path>> JSONworker::get_Prese
     nlohmann::json JsonData;
     std::vector<std::pair<std::string, std::filesystem::path>> all_paths;
 
-    if (!std::filesystem::exists(DefaultPreset_Filename) || std::filesystem::is_directory(DefaultPreset_Filename)) throw std::runtime_error("Unable to exists preset file");
+    if (!std::filesystem::exists(DefaultPreset_Filename) || std::filesystem::is_directory(DefaultPreset_Filename)) return all_paths; //возвращает пустой массив. Исключение удалено из за новой системы оффлайн путей
 
     try {
         std::ifstream file(DefaultPreset_Filename);
