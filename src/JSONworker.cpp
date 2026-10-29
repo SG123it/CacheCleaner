@@ -53,6 +53,7 @@ std::vector<std::filesystem::path> JSONworker::get_UserPaths()
 
 bool JSONworker::set_UserPaths(std::vector<std::filesystem::path> List)
 {
+    if (List.empty()) return true; //Пользователь нечего не ввёл. Возврат True
     //Заполнение...
     nlohmann::json JsonData;
     
