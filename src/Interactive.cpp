@@ -53,21 +53,47 @@ std::vector<std::filesystem::path> interactiveLogic::UserPathsAsk(bool Recurse_E
     return std::vector<std::filesystem::path>(); //Заглушка для предупреждения
 }
 
-void interactiveLogic::DANGER_EditPresetFIleAsk()
+nlohmann::json interactiveLogic::DANGER_EditPresetContentAsk(nlohmann::json Content)
 {
     const std::string msg = "Do you want to edit preset file(original file)\n[0] - NO\n[1] - YES\n> ";
+   nlohmann::json result;
+    
     std::cout << "\n\n--------------------------------\n";
     char action = ' ';
     while (action != '0' && action != '1') action = input<char>(msg, true);
     
     if (action == '1') {
-        std::filesystem::path preset_path = std::filesystem::absolute(".");
-        preset_path /= JSONworker::Get_DefaultPreset_Filename();
+        const std::string TempFileName = "TempFile.txt";
 
+        std::filesystem::path preset_path = std::filesystem::absolute(".");
+        preset_path /= TempFileName;
+
+        std::fstream TempFile(TempFileName, std::ios::out);
+        if (!TempFile.is_open()) {
+            std::cout << "Unable to create temp file..." << std::endl;
+            return Content;
+        }
+
+        TempFile << Content.dump(4);
+        TempFile.close();
         system(preset_path.string().c_str()); //Открытие 
 
-        std::cout << "\nPress any key to continue";
-        std::cin.get();
+        TempFile.open(TempFileName, std::ios::in | std::ios::out);
+        if (!TempFile.is_open()) {
+            std::cout << "Unable to open temp file..." << std::endl;
+            return Content;
+        }
+
+        result = nlohmann::json::parse(TempFile);
+        TempFile.close();
+        try {
+            std::filesystem::remove(std::filesystem::absolute(".") / TempFileName);
+        }
+        catch(...) {
+            std::cout << "Unable to delete tempfile" << std::endl;
+        }
+        return result;
     }
     std::cout << "\n--------------------------------\n";
+    return Content;
 }

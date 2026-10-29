@@ -67,7 +67,7 @@ unsigned long long int Folderworker::GetFolderSize(std::filesystem::path path)
 
         }
     } catch(...) {
-        std::cout << "\nCritical error while Folderworker::GetFolderSize:" << path << std::endl;
+        //Пустая заглушка без вывода в консоль
     }
     return (return_value / 1024) / 1024;
 }

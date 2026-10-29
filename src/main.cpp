@@ -4,6 +4,7 @@
 #include <Folderworker.hpp>
 #include <Interactive.hpp>
 #include <RequestWorker.hpp>
+#include <NoInternetPathsList.hpp>
 
 //Константные значения для программы
 const std::string repository_releases_url = "https://github.com/SG123it/CacheCleaner/releases";
@@ -14,19 +15,8 @@ const std::string VersionFileUrlStandart = "https://raw.githubusercontent.com/SG
 const std::string PROGRAM_NAME = ProgramName;
 const std::string PROGRAM_DESCRIPTION = ProgramDescription;
 const std::string PROGRAM_VERSION = VERSION;
-void terminate() {
-    std::cout << "\n\n\n\n\n\n";
-
-    std::cout << "\n------------------------------------\n";
-    std::cout << "UNKNOWN ERROR! Please make sure that program run as administrator mode!";
-    std::cout << "\n------------------------------------\n";
-    std::cin.get();
-
-    std::abort();
-}
 // Это главная функция, здесь происходит парсинг аргументов и последующий запуск программы
 int main(int argc, char* argv[]) {
-    std::set_terminate(terminate);
 
     //Unordered map для хранения путей ; [категория, вектор путей<fs::path>]
     std::unordered_map<std::string, std::vector<std::filesystem::path>> all_categories;
@@ -34,6 +24,9 @@ int main(int argc, char* argv[]) {
     //Сохранение всех ключей в отдельный вектор для получения доступа к unordered_map выше
     std::set<std::string> categories_keys;
 
+    //Хранит контент(текст) preset файла
+    //Формат: состояние запроса и контент
+    std::pair<bool, nlohmann::json> PresetFile_Content;
 
     //Работа с аргументами
     //---------------------  
@@ -57,7 +50,7 @@ int main(int argc, char* argv[]) {
     bool DRY_RUN_ONLY_FLAG = program["--DRY_RUN_ONLY"] == true;
     //---------------------
     //Вывод информации и скачка недостающих файлов
-    
+
     std::cout << PROGRAM_DESCRIPTION << std::endl;
     std::cout << "VERSION: " << PROGRAM_VERSION << "\n\n";
 
@@ -70,24 +63,39 @@ int main(int argc, char* argv[]) {
         else {
             std::cout << "Latest version!\n\n";
         }
-
-        std::cout << "Checking the availability of the preset file...\n";
-        if (!std::filesystem::exists(PresetFileFileNameStandart)) {
-            std::cout << "Downloading preset file from repository...\n";
-            RequestWorker::DownloadFIle(PresetFileUrlStandart, PresetFileFileNameStandart);
-        }
-        else {
-            std::cout << "Preset file exists!\n\n";
-        }
     }
+        std::cout << "Downloading preset file content from repository...\n";
+        { // Отдельная группа для последующей очистки данных
+            std::pair<bool, std::string> temp = RequestWorker::DownloadContent(PresetFileUrlStandart);
+            PresetFile_Content.first = temp.first;
+            PresetFile_Content.second = nlohmann::json::parse(temp.second);
+        }
 
     //Шаг [1/4] предварительное редактирование preset файла и получение путей из него
     //------------------------------------
-    if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG) interactiveLogic::DANGER_EditPresetFIleAsk();
+    if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG && PresetFile_Content.first) {
+        PresetFile_Content.second = interactiveLogic::DANGER_EditPresetContentAsk(PresetFile_Content.second);
+    }
 
-    if (!std::filesystem::exists(JSONworker::Get_DefaultPreset_Filename())) std::cout << "\nPreset file not found!\n";
+    //Условие если не удалось получить контент с preset файла
+    if (!PresetFile_Content.first) {
+        const std::string NO_INTERNET_KEY = "NO_INTERNET";
+        #if defined(_WIN32)
+            categories_keys.insert(NO_INTERNET_KEY);
+            for (auto el : NoInternetPaths::Win) {
+                all_categories[NO_INTERNET_KEY].push_back(std::filesystem::path(el));
+            }
+        #endif
+        #if defined(__linux__)
+            categories_keys.insert(NO_INTERNET_KEY);
+            for (auto el : NoInternetPaths::Linux) {
+                all_categories[NO_INTERNET_KEY].push_back(std::filesystem::path(el));
+            }
+        #endif
 
-    for (auto el : JSONworker::get_PresetPaths()) {
+    }
+
+    for (auto el : JSONworker::get_PresetPaths(PresetFile_Content.second.dump(4))) {
         categories_keys.insert(el.first);
         all_categories[el.first].push_back(el.second);
     }

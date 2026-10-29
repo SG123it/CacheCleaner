@@ -46,6 +46,23 @@ bool RequestWorker::DownloadFIle(std::string URL, std::string path)
     return true;
 }
 
+std::pair<bool,std::string> RequestWorker::DownloadContent(std::string URL)
+{
+    std::pair<short int,std::string> result;
+    result.first = true; //по умолчанию статус выполнения операции == 1
+
+    cpr::Response data = get_request(URL);
+    if (data.status_code != 200) {
+        result.first = false;
+        result.second = "-";
+
+        return result;
+    }
+
+    result.second = data.text;
+    return result;
+}
+
 bool RequestWorker::CheckProgramUpdates(std::string RemoteVersionURL, float version)
 {
     cpr::Response data = get_request(RemoteVersionURL);
