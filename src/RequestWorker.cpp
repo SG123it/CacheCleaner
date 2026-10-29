@@ -71,7 +71,7 @@ bool RequestWorker::CheckProgramUpdates(std::string RemoteVersionURL, float vers
     //Корвертирование удалённой строки с версией в float
     float RemoteVersion = 0.0;
     try {
-        RemoteVersion = std::stoi(data.text);
+        RemoteVersion = std::stof(data.text);
     }
     catch(...) {
         std::cout << "Unable to convert string to int: " << data.text << std::endl;
