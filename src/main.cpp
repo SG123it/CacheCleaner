@@ -63,16 +63,13 @@ int main(int argc, char* argv[]) {
         else {
             std::cout << "Latest version!\n\n";
         }
-
+    }
         std::cout << "Downloading preset file content from repository...\n";
         { // Отдельная группа для последующей очистки данных
             std::pair<bool, std::string> temp = RequestWorker::DownloadContent(PresetFileUrlStandart);
             PresetFile_Content.first = temp.first;
             PresetFile_Content.second = nlohmann::json::parse(temp.second);
-        
         }
-        
-    }
 
     //Шаг [1/4] предварительное редактирование preset файла и получение путей из него
     //------------------------------------
