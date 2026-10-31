@@ -44,7 +44,7 @@ std::filesystem::path Folderworker::VariablesToText(std::string path)
         return path;
     }
 
-    return std::filesystem::path(); //заглушка для предупреждения
+    return path; //Возврат оригинального пути, переменных нет
 }
 
 unsigned long long int Folderworker::GetFolderSize(std::filesystem::path path)

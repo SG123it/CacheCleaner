@@ -37,10 +37,10 @@ std::vector<std::filesystem::path> interactiveLogic::UserPathsAsk(bool Recurse_E
         char action = ' ';
         while (!(action >= '0' && action <= '2')) action = input<char>(msg, true);
 
-        if (action == '0') return paths;
+        if (action == '0') return paths;  //возращает пустой вектор(пользователь отказался)
         else if (action == '1') {
             paths = JSONworker::get_UserPaths();
-            return paths; //возращает пустой вектор(пользователь отказался)
+            return paths;
         }
         else if (action == '2') {
             std::filesystem::remove(JSONworker::Get_DefaultUserpaths_Filename());
