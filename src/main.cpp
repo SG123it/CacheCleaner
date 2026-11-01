@@ -9,7 +9,7 @@
 //Константные значения для программы
 const std::string repository_releases_url = "https://github.com/SG123it/CacheCleaner/releases";
 const std::string PresetFileUrlStandart = "https://raw.githubusercontent.com/SG123it/CacheCleaner/refs/heads/main/dependencies/presets.json";
-const std::string PresetFileFileNameStandart = "presets.json";
+const std::string ExternListUrlStandart = "https://raw.githubusercontent.com/SG123it/CacheCleaner/refs/heads/main/dependencies/ExternList.json";
 const std::string VersionFileUrlStandart = "https://raw.githubusercontent.com/SG123it/CacheCleaner/refs/heads/main/version.txt";
 //Макросы определены в CMAKELISTS
 const std::string PROGRAM_NAME = ProgramName;
@@ -27,6 +27,10 @@ int main(int argc, char* argv[]) {
     //Хранит контент(текст) preset файла
     //Формат: состояние запроса и контент
     std::pair<bool, nlohmann::json> PresetFile_Content;
+
+    //Хранит контент(текст) Extern листа
+    //Формат: состояние запроса и контент
+    std::pair<bool, nlohmann::json> ExternList_Content;
 
     //Работа с аргументами
     //---------------------  
@@ -64,12 +68,19 @@ int main(int argc, char* argv[]) {
             std::cout << "Latest version!\n\n";
         }
     }
-        std::cout << "Downloading preset file content from repository...\n";
-        { // Отдельная группа для последующей очистки данных
-            std::pair<bool, std::string> temp = RequestWorker::DownloadContent(PresetFileUrlStandart);
-            PresetFile_Content.first = temp.first;
-            PresetFile_Content.second = nlohmann::json::parse(temp.second);
-        }
+    std::cout << "Downloading preset file content from repository...\n";
+    { // Отдельная группа для последующей очистки данных
+        std::pair<bool, std::string> temp = RequestWorker::DownloadContent(PresetFileUrlStandart);
+        PresetFile_Content.first = temp.first;
+        PresetFile_Content.second = ( temp.first ? nlohmann::json::parse(temp.second) : "");
+    }
+
+    if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG) {
+        std::cout << "Downloading Extern list content from repository...\n";
+        std::pair<bool, std::string> temp = RequestWorker::DownloadContent(ExternListUrlStandart);
+        ExternList_Content.first = temp.first;
+        ExternList_Content.second = ( temp.first ? nlohmann::json::parse(temp.second) : "");
+    }
 
     //Шаг [1/4] предварительное редактирование preset файла и получение путей из него
     //------------------------------------
@@ -77,8 +88,7 @@ int main(int argc, char* argv[]) {
         PresetFile_Content.second = interactiveLogic::DANGER_EditPresetContentAsk(PresetFile_Content.second);
     }
 
-    //Условие если не удалось получить контент с preset файла
-    if (!PresetFile_Content.first) {
+    if (!PresetFile_Content.first) { //Условие если не удалось получить контент с preset файла
         const std::string NO_INTERNET_KEY = "NO_INTERNET";
         #if defined(_WIN32)
             categories_keys.insert(NO_INTERNET_KEY);
@@ -102,9 +112,23 @@ int main(int argc, char* argv[]) {
 
     //Шаг [2/4] Уточнение пользовательских путей и сохранение 
     //------------------------------------
+    std::vector<std::filesystem::path> ExternList;
+
+    if (!ExternList_Content.first && (!FAST_FLAG && !DRY_RUN_ONLY_FLAG)) { //Условие если не удалось получить контент с extern листа
+        #if defined(_WIN32)
+            for (auto el : NoInternetPaths::Win_Extern) ExternList.push_back(el);
+        #endif
+        #if defined(__linux__)
+            for (auto el : NoInternetPaths::Linux_Extern) ExternList.push_back(el);
+        #endif
+    }
+    else {
+        ExternList = JSONworker::get_ExternListPaths(ExternList_Content.second);
+    }
+
     if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG) {
         //Вектор с пользовательскими путями. Если включён флаг FAST интерактивная часть просто пропускается а вектор остаётся пустым
-        std::vector<std::filesystem::path> UserPaths = interactiveLogic::UserPathsAsk();
+        std::vector<std::filesystem::path> UserPaths = interactiveLogic::UserPathsAsk(ExternList);
         if (!JSONworker::set_UserPaths(UserPaths)) std::cout << "\nUnable to save user paths!";
 
         //Добавление пользовательских категорий в общий вектор all_categories
