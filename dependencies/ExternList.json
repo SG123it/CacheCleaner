@@ -1,0 +1,38 @@
+{
+  "Windows": [
+    "C:\\Windows",
+    "C:\\Windows\\System32",
+    "C:\\Windows\\SysWOW64",
+    "C:\\Windows\\WinSxS",
+    "C:\\Windows\\Boot",
+    "C:\\Windows\\inf",
+    "C:\\Windows\\Fonts",
+    "C:\\Program Files",
+    "C:\\Program Files (x86)",
+    "C:\\Recovery",
+    "$WIN_USERS$\\NTUSER.DAT",
+    "$WIN_USERS$\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu",
+    "C:\\Boot",
+    "C:\\EFI"
+  ],
+  "Linux": [
+    "/",
+    "/bin",
+    "/sbin",
+    "/usr",
+    "/lib",
+    "/lib64",
+    "/etc",
+    "/boot",
+    "/dev",
+    "/proc",
+    "/sys",
+    "/var/lib",
+    "/var/log",
+    "/var/spool",
+    "/boot/grub",
+    "/boot/efi",
+    "/boot/vmlinuz*",
+    "/boot/initrd*"
+  ]
+}

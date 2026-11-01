@@ -21,6 +21,20 @@ public:
         "$WIN_USERS$\\AppData\\Local\\Epic Games\\Launcher\\Saved\\webcache",
         "$WIN_USERS$\\AppData\\Local\\Microsoft\\Office\\16.0\\OfficeFileCache"
     };
+    const inline static std::string Win_Extern[] = {
+        "C:\\Windows",
+        "C:\\Windows\\System32",
+        "C:\\Windows\\SysWOW64",
+        "C:\\Windows\\WinSxS",
+        "C:\\Windows\\Boot",
+        "C:\\Windows\\inf",
+        "C:\\Windows\\Fonts",
+        "C:\\Program Files",
+        "C:\\Program Files (x86)",
+        "C:\\Recovery",
+        "C:\\Boot",
+        "C:\\EFI"
+    };
 
     const inline static std::string Linux[] = {
 
@@ -35,6 +49,24 @@ public:
         "~/.local/share/Steam/appcache",
         "~/.config/TelegramDesktop/tdata/cache"
 
+    };
+    const inline static std::string Linux_Extern[] = {
+        "/",
+        "/bin",
+        "/sbin",
+        "/usr",
+        "/lib",
+        "/lib64",
+        "/etc",
+        "/boot",
+        "/dev",
+        "/proc",
+        "/sys",
+        "/var/lib",
+        "/var/log",
+        "/var/spool",
+        "/boot/grub",
+        "/boot/efi"
     };
 
 };

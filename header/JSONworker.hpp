@@ -13,9 +13,14 @@ private:
 
     //Стандартный путь до файла с путями пользователя
     inline static const std::filesystem::path DefaultUserpaths_Filename = "UserPaths.json";
+
+    //Стандартный путь до файла путями которые категорически нельзя удалять(Extern list)
+    inline static const std::filesystem::path DefaultExternList_Filename = "ExternList.json";
 public:
     //Получить пути preset файла из контента запроса
     static std::vector<std::pair<std::string, std::filesystem::path>> get_PresetPaths(const std::string MSG_Content);
+    //Получить пути preset файла из контента запроса
+    static std::vector<std::filesystem::path> get_ExternListPaths(const std::string MSG_Content);
 
     static std::vector<std::filesystem::path> get_UserPaths();
     static bool set_UserPaths(std::vector<std::filesystem::path> List);

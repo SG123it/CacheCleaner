@@ -28,6 +28,29 @@ std::vector<std::pair<std::string, std::filesystem::path>> JSONworker::get_Prese
         return all_paths;
 }
 
+std::vector<std::filesystem::path> JSONworker::get_ExternListPaths(const std::string MSG_Content)
+{
+    nlohmann::json JsonData = nlohmann::json::parse(MSG_Content);
+    std::vector<std::filesystem::path> all_paths;
+    
+    std::string OS = "";
+    #if defined(_WIN32)
+        OS = "Windows";
+    #elif defined(__linux__)
+        OS = "Linux";
+    #else
+        #error "Unsupported OS"
+    #endif
+
+
+    for (auto filepath : JsonData[OS]) {
+
+        if (!filepath.is_string()) continue;
+        all_paths.push_back(filepath);
+    }
+    return all_paths;
+}
+
 std::vector<std::filesystem::path> JSONworker::get_UserPaths()
 {
     nlohmann::json JsonData;
