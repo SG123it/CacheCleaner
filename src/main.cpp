@@ -24,14 +24,6 @@ int main(int argc, char* argv[]) {
     //Сохранение всех ключей в отдельный вектор для получения доступа к unordered_map выше
     std::set<std::string> categories_keys;
 
-    //Хранит контент(текст) preset файла
-    //Формат: состояние запроса и контент
-    std::pair<bool, nlohmann::json> PresetFile_Content;
-
-    //Хранит контент(текст) Extern листа
-    //Формат: состояние запроса и контент
-    std::pair<bool, nlohmann::json> ExternList_Content;
-
     //Работа с аргументами
     //---------------------  
     argparse::ArgumentParser program(PROGRAM_NAME,PROGRAM_VERSION);
@@ -68,12 +60,23 @@ int main(int argc, char* argv[]) {
             std::cout << "Latest version!\n\n";
         }
     }
+
+    
+    //Хранит контент(текст) preset файла
+    //Формат: состояние запроса и контент
+    std::pair<bool, nlohmann::json> PresetFile_Content;
+
     std::cout << "Downloading preset file content from repository...\n";
     { // Отдельная группа для последующей очистки данных
         std::pair<bool, std::string> temp = RequestWorker::DownloadContent(PresetFileUrlStandart);
         PresetFile_Content.first = temp.first;
         PresetFile_Content.second = ( temp.first ? nlohmann::json::parse(temp.second) : "");
     }
+
+
+    //Хранит контент(текст) Extern листа
+    //Формат: состояние запроса и контент
+    std::pair<bool, nlohmann::json> ExternList_Content;
 
     if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG) {
         std::cout << "Downloading Extern list content from repository...\n";
