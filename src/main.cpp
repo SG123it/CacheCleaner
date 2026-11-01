@@ -64,25 +64,25 @@ int main(int argc, char* argv[]) {
     
     //Хранит контент(текст) preset файла
     //Формат: состояние запроса и контент
-    std::pair<bool, nlohmann::json> PresetFile_Content;
+    std::pair<bool, std::string> PresetFile_Content;
 
     std::cout << "Downloading preset file content from repository...\n";
     { // Отдельная группа для последующей очистки данных
         std::pair<bool, std::string> temp = RequestWorker::DownloadContent(PresetFileUrlStandart);
         PresetFile_Content.first = temp.first;
-        PresetFile_Content.second = ( temp.first ? nlohmann::json::parse(temp.second) : "");
+        PresetFile_Content.second = ( temp.first ? temp.second : std::string());
     }
 
 
     //Хранит контент(текст) Extern листа
     //Формат: состояние запроса и контент
-    std::pair<bool, nlohmann::json> ExternList_Content;
+    std::pair<bool, std::string> ExternList_Content;
 
     if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG) {
         std::cout << "Downloading Extern list content from repository...\n";
         std::pair<bool, std::string> temp = RequestWorker::DownloadContent(ExternListUrlStandart);
         ExternList_Content.first = temp.first;
-        ExternList_Content.second = ( temp.first ? nlohmann::json::parse(temp.second) : "");
+        ExternList_Content.second = ( temp.first ? temp.second : std::string());
     }
 
     //Шаг [1/4] предварительное редактирование preset файла и получение путей из него
@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
 
     }
 
-    for (auto el : JSONworker::get_PresetPaths(PresetFile_Content.second.dump(4))) {
+    for (auto el : JSONworker::get_PresetPaths(PresetFile_Content.second)) {
         categories_keys.insert(el.first);
         all_categories[el.first].push_back(el.second);
     }
