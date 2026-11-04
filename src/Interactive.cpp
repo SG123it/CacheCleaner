@@ -1,10 +1,10 @@
 #include "Interactive.hpp"
 
-std::vector<std::filesystem::path> interactiveLogic::UserPathsAsk(std::vector<std::filesystem::path> ExternList, bool Recurse_EnterNewPaths)
+std::vector<std::filesystem::path> interactiveLogic::UserPathsAsk(bool Recurse_EnterNewPaths)
 {
     std::vector<std::filesystem::path> paths;
     bool is_UserPathsFile_Exists = std::filesystem::exists(JSONworker::Get_DefaultUserpaths_Filename());
-    std::cout << "\n\n--------------------------------\n";
+    std::cout << "\n\n";
 
     //Вариант ветвления [1/2] - если файла с пользовательскими путями не найден
     //Предлагает записать свои пути или продолжить без этого
@@ -23,23 +23,12 @@ std::vector<std::filesystem::path> interactiveLogic::UserPathsAsk(std::vector<st
         for (int i = 0; i < count; i++) {
             std::string path = "";
             while(!std::filesystem::is_directory(path)) {
-                bool In_Extern_List = false; //Переменная определяющая есть ли путь в списке запрещённых путей
                 path = input<std::string>("Enter path to the directory #" + std::to_string(i + 1) + ":", true);
-
-                for (auto el : ExternList) {
-                    std::error_code ec;
-                    if (std::filesystem::equivalent(el, path, ec)) {
-                        path = ""; //Очистка введённого пути (содержится в Extern листе)
-                        In_Extern_List = true;
-                        std::cout << "Please enter another path! (Exists in extern list) : " << ec.message() << std::endl;
-                    }
-                }
-
-                if (In_Extern_List) continue;
             }
 
             paths.push_back(path);
         }
+
         return paths;
     }
     //Вариант ветвления [2/2] - если файла с пользовательскими путями найден
@@ -57,20 +46,17 @@ std::vector<std::filesystem::path> interactiveLogic::UserPathsAsk(std::vector<st
         else if (action == '2') {
             std::filesystem::remove(JSONworker::Get_DefaultUserpaths_Filename());
 
-            return UserPathsAsk(ExternList, true); //Рекурсивный запуск функции с предварительным удалением файла для запуска другого условия в начале
+            return UserPathsAsk(true); //Рекурсивный запуск функции с предварительным удалением файла для запуска другого условия в начале
         }
     }
-
-    std::cout << "\n--------------------------------\n";
     return std::vector<std::filesystem::path>(); //Заглушка для предупреждения
 }
 
-nlohmann::json interactiveLogic::DANGER_EditPresetContentAsk(nlohmann::json Content)
+std::string interactiveLogic::DANGER_EditPresetContentAsk(std::string Content)
 {
     const std::string msg = "Do you want to edit preset file(original file)\n[0] - NO\n[1] - YES\n> ";
-   nlohmann::json result;
+    std::string result;
     
-    std::cout << "\n\n--------------------------------\n";
     char action = ' ';
     while (action != '0' && action != '1') action = input<char>(msg, true);
     
@@ -86,7 +72,7 @@ nlohmann::json interactiveLogic::DANGER_EditPresetContentAsk(nlohmann::json Cont
             return Content;
         }
 
-        TempFile << Content.dump(4);
+        TempFile << Content;
         TempFile.close();
         system(preset_path.string().c_str()); //Открытие 
 
@@ -96,7 +82,13 @@ nlohmann::json interactiveLogic::DANGER_EditPresetContentAsk(nlohmann::json Cont
             return Content;
         }
 
-        result = nlohmann::json::parse(TempFile);
+        {
+            std::string line = "";
+
+            //Пояснение: пользователь перезаписал файл и мы заново считываем содержимое
+            while (std::getline(TempFile, line)) result += line + "\n";
+        }
+
         TempFile.close();
         try {
             std::filesystem::remove(std::filesystem::absolute(".") / TempFileName);
@@ -106,6 +98,6 @@ nlohmann::json interactiveLogic::DANGER_EditPresetContentAsk(nlohmann::json Cont
         }
         return result;
     }
-    std::cout << "\n--------------------------------\n";
+
     return Content;
 }

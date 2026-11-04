@@ -24,6 +24,6 @@ public:
     static std::vector<std::filesystem::path> GetFolderObjects(std::filesystem::path path);
 
     //Функция которая выполняет рекурсивное удаление в папке. Возвращает массив пар [результат, путь]
-    static std::vector<std::pair<bool, std::filesystem::path>> RecursiveFolderDelete(std::filesystem::path path);
+    static std::vector<std::pair<bool, std::filesystem::path>> RecursiveFolderDelete(std::filesystem::path path, std::vector<std::filesystem::path> ExternList);
 
 };

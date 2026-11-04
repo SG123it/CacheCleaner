@@ -131,7 +131,7 @@ int main(int argc, char* argv[]) {
 
     if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG) {
         //Вектор с пользовательскими путями. Если включён флаг FAST интерактивная часть просто пропускается а вектор остаётся пустым
-        std::vector<std::filesystem::path> UserPaths = interactiveLogic::UserPathsAsk(ExternList);
+        std::vector<std::filesystem::path> UserPaths = interactiveLogic::UserPathsAsk();
         if (!JSONworker::set_UserPaths(UserPaths)) std::cout << "\nUnable to save user paths!";
 
         //Добавление пользовательских категорий в общий вектор all_categories
@@ -140,8 +140,6 @@ int main(int argc, char* argv[]) {
     }
     //Шаг [3/4] Сканирование
     //------------------------------------
-
-    std::cout <<"\n-----------------------------\n";
     std::cout << "Preview of total size: \n\n";
     int total_size = 0;
     for (auto catetogy : categories_keys) {
@@ -160,7 +158,6 @@ int main(int argc, char* argv[]) {
 
         return 0;
     }
-    std::cout <<"\n-----------------------------\n";
 
     //Шаг [4/4] Запуск очистки
     //------------------------------------
@@ -192,7 +189,7 @@ int main(int argc, char* argv[]) {
                 std::vector<std::pair<bool, std::filesystem::path>> temp_result;
 
                 before_size = Folderworker::GetFolderSize(path);
-                temp_result = Folderworker::RecursiveFolderDelete(path);
+                temp_result = Folderworker::RecursiveFolderDelete(path, ExternList);
                 after_size = Folderworker::GetFolderSize(path);
 
                 deleted_mb += (before_size - after_size);
