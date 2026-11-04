@@ -4,7 +4,7 @@ std::vector<std::filesystem::path> interactiveLogic::UserPathsAsk(bool Recurse_E
 {
     std::vector<std::filesystem::path> paths;
     bool is_UserPathsFile_Exists = std::filesystem::exists(JSONworker::Get_DefaultUserpaths_Filename());
-    std::cout << "\n\n--------------------------------\n";
+    std::cout << "\n\n";
 
     //Вариант ветвления [1/2] - если файла с пользовательскими путями не найден
     //Предлагает записать свои пути или продолжить без этого
@@ -28,6 +28,7 @@ std::vector<std::filesystem::path> interactiveLogic::UserPathsAsk(bool Recurse_E
 
             paths.push_back(path);
         }
+
         return paths;
     }
     //Вариант ветвления [2/2] - если файла с пользовательскими путями найден
@@ -48,8 +49,6 @@ std::vector<std::filesystem::path> interactiveLogic::UserPathsAsk(bool Recurse_E
             return UserPathsAsk(true); //Рекурсивный запуск функции с предварительным удалением файла для запуска другого условия в начале
         }
     }
-
-    std::cout << "\n--------------------------------\n";
     return std::vector<std::filesystem::path>(); //Заглушка для предупреждения
 }
 
@@ -58,7 +57,6 @@ nlohmann::json interactiveLogic::DANGER_EditPresetContentAsk(nlohmann::json Cont
     const std::string msg = "Do you want to edit preset file(original file)\n[0] - NO\n[1] - YES\n> ";
    nlohmann::json result;
     
-    std::cout << "\n\n--------------------------------\n";
     char action = ' ';
     while (action != '0' && action != '1') action = input<char>(msg, true);
     
@@ -94,6 +92,6 @@ nlohmann::json interactiveLogic::DANGER_EditPresetContentAsk(nlohmann::json Cont
         }
         return result;
     }
-    std::cout << "\n--------------------------------\n";
+    
     return Content;
 }
