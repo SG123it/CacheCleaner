@@ -88,7 +88,7 @@ std::vector<std::filesystem::path> Folderworker::GetFolderObjects(std::filesyste
     return return_value;
 }
 
-std::vector<std::pair<bool, std::filesystem::path>> Folderworker::RecursiveFolderDelete(std::filesystem::path path)
+std::vector<std::pair<bool, std::filesystem::path>> Folderworker::RecursiveFolderDelete(std::filesystem::path path, std::vector<std::filesystem::path> ExternList)
 {
     path = VariablesToText(path.string());
     if (!std::filesystem::is_directory(path)) throw std::runtime_error("Error! " + path.string() + " - NOT DIRECTORY! (RecursiveFolderDelete)");
@@ -97,6 +97,18 @@ std::vector<std::pair<bool, std::filesystem::path>> Folderworker::RecursiveFolde
     try {
         for (auto el : std::filesystem::recursive_directory_iterator(path, std::filesystem::directory_options::skip_permission_denied)) {
             std::pair<bool, std::filesystem::path> object;
+            bool In_Extern_List = false; //Переменная определяющая есть ли путь в списке запрещённых путей
+
+            for (auto el : ExternList) {
+                std::error_code ec;
+                if (std::filesystem::equivalent(el, path, ec)) {
+                    path = ""; //Очистка введённого пути (содержится в Extern листе)
+                    In_Extern_List = true;
+                    std::cout << "Unable to delete path! (Exists in extern list) : " << ec.message() << " - " << path.string() << std::endl;
+                    break;
+                }
+            }
+            if (In_Extern_List) continue; //Если путь в Extern списке то он пропускается
 
             object.second = el.path();
             object.first = DeleteObject(el.path());
