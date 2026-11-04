@@ -1,6 +1,6 @@
 #include "Interactive.hpp"
 
-std::vector<std::filesystem::path> interactiveLogic::UserPathsAsk(std::vector<std::filesystem::path> ExternList, bool Recurse_EnterNewPaths)
+std::vector<std::filesystem::path> interactiveLogic::UserPathsAsk(bool Recurse_EnterNewPaths)
 {
     std::vector<std::filesystem::path> paths;
     bool is_UserPathsFile_Exists = std::filesystem::exists(JSONworker::Get_DefaultUserpaths_Filename());
@@ -23,19 +23,7 @@ std::vector<std::filesystem::path> interactiveLogic::UserPathsAsk(std::vector<st
         for (int i = 0; i < count; i++) {
             std::string path = "";
             while(!std::filesystem::is_directory(path)) {
-                bool In_Extern_List = false; //Переменная определяющая есть ли путь в списке запрещённых путей
                 path = input<std::string>("Enter path to the directory #" + std::to_string(i + 1) + ":", true);
-
-                for (auto el : ExternList) {
-                    std::error_code ec;
-                    if (std::filesystem::equivalent(el, path, ec)) {
-                        path = ""; //Очистка введённого пути (содержится в Extern листе)
-                        In_Extern_List = true;
-                        std::cout << "Please enter another path! (Exists in extern list) : " << ec.message() << std::endl;
-                    }
-                }
-
-                if (In_Extern_List) continue;
             }
 
             paths.push_back(path);
@@ -57,7 +45,7 @@ std::vector<std::filesystem::path> interactiveLogic::UserPathsAsk(std::vector<st
         else if (action == '2') {
             std::filesystem::remove(JSONworker::Get_DefaultUserpaths_Filename());
 
-            return UserPathsAsk(ExternList, true); //Рекурсивный запуск функции с предварительным удалением файла для запуска другого условия в начале
+            return UserPathsAsk(true); //Рекурсивный запуск функции с предварительным удалением файла для запуска другого условия в начале
         }
     }
 

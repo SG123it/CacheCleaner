@@ -131,7 +131,7 @@ int main(int argc, char* argv[]) {
 
     if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG) {
         //Вектор с пользовательскими путями. Если включён флаг FAST интерактивная часть просто пропускается а вектор остаётся пустым
-        std::vector<std::filesystem::path> UserPaths = interactiveLogic::UserPathsAsk(ExternList);
+        std::vector<std::filesystem::path> UserPaths = interactiveLogic::UserPathsAsk();
         if (!JSONworker::set_UserPaths(UserPaths)) std::cout << "\nUnable to save user paths!";
 
         //Добавление пользовательских категорий в общий вектор all_categories
