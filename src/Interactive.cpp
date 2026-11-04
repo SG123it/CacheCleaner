@@ -52,10 +52,10 @@ std::vector<std::filesystem::path> interactiveLogic::UserPathsAsk(bool Recurse_E
     return std::vector<std::filesystem::path>(); //Заглушка для предупреждения
 }
 
-nlohmann::json interactiveLogic::DANGER_EditPresetContentAsk(nlohmann::json Content)
+std::string interactiveLogic::DANGER_EditPresetContentAsk(std::string Content)
 {
     const std::string msg = "Do you want to edit preset file(original file)\n[0] - NO\n[1] - YES\n> ";
-   nlohmann::json result;
+    std::string result;
     
     char action = ' ';
     while (action != '0' && action != '1') action = input<char>(msg, true);
@@ -72,7 +72,7 @@ nlohmann::json interactiveLogic::DANGER_EditPresetContentAsk(nlohmann::json Cont
             return Content;
         }
 
-        TempFile << Content.dump(4);
+        TempFile << Content;
         TempFile.close();
         system(preset_path.string().c_str()); //Открытие 
 
@@ -82,7 +82,13 @@ nlohmann::json interactiveLogic::DANGER_EditPresetContentAsk(nlohmann::json Cont
             return Content;
         }
 
-        result = nlohmann::json::parse(TempFile);
+        {
+            std::string line = "";
+
+            //Пояснение: пользователь перезаписал файл и мы заново считываем содержимое
+            while (std::getline(TempFile, line)) result += line + "\n";
+        }
+
         TempFile.close();
         try {
             std::filesystem::remove(std::filesystem::absolute(".") / TempFileName);
@@ -92,6 +98,6 @@ nlohmann::json interactiveLogic::DANGER_EditPresetContentAsk(nlohmann::json Cont
         }
         return result;
     }
-    
+
     return Content;
 }
