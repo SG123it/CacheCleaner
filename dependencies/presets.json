@@ -7,7 +7,8 @@
       "C:\\Windows\\Prefetch",
       "C:\\Windows\\LiveKernelReports",
       "$WIN_USERS$\\AppData\\Local\\Temp\\Low",
-      "$WIN_USERS$\\AppData\\Local\\D3DSCache"
+      "$WIN_USERS$\\AppData\\Local\\D3DSCache",
+      "$WIN_DIR$\\..\\$Recycle.Bin"
     ],
     "Browser_files": [
       "$WIN_USERS$\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Code Cache",

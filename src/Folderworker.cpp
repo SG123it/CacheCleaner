@@ -43,6 +43,18 @@ std::filesystem::path Folderworker::VariablesToText(std::string path)
         path.replace(pos, marker.size(), replace_to.string());
         return path;
     }
+    else if (path.find("$WIN_DIR$") != std::string::npos) {
+        const std::string marker = "$WIN_DIR$";
+        auto pos = path.find(marker);
+
+        const char* windir = std::getenv("windir");
+        if (!windir) throw std::runtime_error("Unable to get windows env");
+        std::filesystem::path replace_to = windir;
+
+
+        path.replace(pos, marker.size(), replace_to.string());
+        return path;
+    }
 
     return path; //Возврат оригинального пути, переменных нет
 }
