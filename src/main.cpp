@@ -87,10 +87,6 @@ int main(int argc, char* argv[]) {
 
     //Шаг [1/4] предварительное редактирование preset файла и получение путей из него
     //------------------------------------
-    if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG && PresetFile_Content.first) {
-        PresetFile_Content.second = interactiveLogic::DANGER_EditPresetContentAsk(PresetFile_Content.second);
-    }
-
     if (!PresetFile_Content.first) { //Условие если не удалось получить контент с preset файла
         const std::string NO_INTERNET_KEY = "NO_INTERNET";
         #if defined(_WIN32)
@@ -107,10 +103,14 @@ int main(int argc, char* argv[]) {
         #endif
 
     }
+    else if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG && PresetFile_Content.first) {
+        PresetFile_Content.second = interactiveLogic::DANGER_EditPresetContentAsk(PresetFile_Content.second);
 
-    for (auto el : JSONworker::get_PresetPaths(PresetFile_Content.second)) {
-        categories_keys.insert(el.first);
-        all_categories[el.first].push_back(el.second);
+        for (auto el : JSONworker::get_PresetPaths(PresetFile_Content.second)) {
+            categories_keys.insert(el.first);
+            all_categories[el.first].push_back(el.second);
+        }
+
     }
 
     //Шаг [2/4] Уточнение пользовательских путей и сохранение 
@@ -128,7 +128,7 @@ int main(int argc, char* argv[]) {
     else {
         ExternList = JSONworker::get_ExternListPaths(ExternList_Content.second);
     }
-
+    
     if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG) {
         //Вектор с пользовательскими путями. Если включён флаг FAST интерактивная часть просто пропускается а вектор остаётся пустым
         std::vector<std::filesystem::path> UserPaths = interactiveLogic::UserPathsAsk();
