@@ -19,7 +19,8 @@ public:
         "$WIN_USERS$\\AppData\\Local\\Adobe\\Acrobat\\DC\\Cache",
         "$WIN_USERS$\\AppData\\Local\\Steam\\appcache",
         "$WIN_USERS$\\AppData\\Local\\Epic Games\\Launcher\\Saved\\webcache",
-        "$WIN_USERS$\\AppData\\Local\\Microsoft\\Office\\16.0\\OfficeFileCache"
+        "$WIN_USERS$\\AppData\\Local\\Microsoft\\Office\\16.0\\OfficeFileCache",
+        "$WIN_DIR$\\..\\$Recycle.Bin"
     };
     const inline static std::string Win_Extern[] = {
         "C:\\Windows",
