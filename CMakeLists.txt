@@ -28,6 +28,7 @@ FetchContent_MakeAvailable(cpr)
 
 add_executable(${P_NAME} ${SRC})
 target_link_libraries(${P_NAME} PUBLIC cpr::cpr)
+target_link_options(${P_NAME} PRIVATE -static-libgcc -static-libstdc++)
 
 target_compile_definitions(${P_NAME} PRIVATE VERSION="${P_VER}")
 target_compile_definitions(${P_NAME} PRIVATE ProgramName="${P_NAME}")
