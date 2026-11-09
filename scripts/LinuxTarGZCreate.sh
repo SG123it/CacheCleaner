@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd ..
+
 mkdir  Output
 cmake -B build -G "Unix Makefiles"
 cmake --build build
