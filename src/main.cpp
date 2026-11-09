@@ -105,12 +105,11 @@ int main(int argc, char* argv[]) {
     }
     else if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG && PresetFile_Content.first) {
         PresetFile_Content.second = interactiveLogic::DANGER_EditPresetContentAsk(PresetFile_Content.second);
+    }
 
-        for (auto el : JSONworker::get_PresetPaths(PresetFile_Content.second)) {
+    for (auto el : JSONworker::get_PresetPaths(PresetFile_Content.second)) {
             categories_keys.insert(el.first);
             all_categories[el.first].push_back(el.second);
-        }
-
     }
 
     //Шаг [2/4] Уточнение пользовательских путей и сохранение 
@@ -125,7 +124,7 @@ int main(int argc, char* argv[]) {
             for (auto el : NoInternetPaths::Linux_Extern) ExternList.push_back(el);
         #endif
     }
-    else {
+    else if (!FAST_FLAG && !DRY_RUN_ONLY_FLAG && ExternList_Content.first) {
         ExternList = JSONworker::get_ExternListPaths(ExternList_Content.second);
     }
     
