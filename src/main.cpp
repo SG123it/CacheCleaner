@@ -28,22 +28,22 @@ int main(int argc, char* argv[]) {
     //---------------------  
     argparse::ArgumentParser program(PROGRAM_NAME,PROGRAM_VERSION);
     program.add_description(PROGRAM_DESCRIPTION);
-    program.add_argument("--FAST", "--F")
+    program.add_argument("--fast", "-f")
     .help("quickly clean files without user paths")
     .flag();
 
-    program.add_argument("--VERBOSE_RESULT", "--VR")
+    program.add_argument("--verbose_result", "-vr")
     .help("Outputs the result in an expanded form.")
     .flag();
 
-    program.add_argument("--DRY_RUN_ONLY", "--DRO")
+    program.add_argument("--DryRunOnly", "-dro")
     .help("Scan folders without subsequent cleanup.")
     .flag();
 
     program.parse_args(argc, argv);
-    bool FAST_FLAG = program["--FAST"] == true;
-    bool VERBOSE_RESULT_FLAG = program["--VERBOSE_RESULT"] == true;
-    bool DRY_RUN_ONLY_FLAG = program["--DRY_RUN_ONLY"] == true;
+    bool FAST_FLAG = program["--fast"] == true;
+    bool VERBOSE_RESULT_FLAG = program["--verbose_result"] == true;
+    bool DRY_RUN_ONLY_FLAG = program["--DryRunOnly"] == true;
     //---------------------
     //Вывод информации и скачка недостающих файлов
 
