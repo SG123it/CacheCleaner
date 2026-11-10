@@ -107,9 +107,11 @@ int main(int argc, char* argv[]) {
         PresetFile_Content.second = interactiveLogic::DANGER_EditPresetContentAsk(PresetFile_Content.second);
     }
 
-    for (auto el : JSONworker::get_PresetPaths(PresetFile_Content.second)) {
-            categories_keys.insert(el.first);
-            all_categories[el.first].push_back(el.second);
+    if (PresetFile_Content.first) {
+        for (auto el : JSONworker::get_PresetPaths(PresetFile_Content.second)) {
+                categories_keys.insert(el.first);
+                all_categories[el.first].push_back(el.second);
+        }
     }
 
     //Шаг [2/4] Уточнение пользовательских путей и сохранение 
